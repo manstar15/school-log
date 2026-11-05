@@ -4,7 +4,14 @@
 <meta charset="UTF-8">
 <meta name="color-scheme" content="light">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>School planner</title>
+<title>School log</title>
+<link rel="icon" type="image/png" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="School">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#EEF2F9">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -165,18 +172,65 @@ input[type=date].inp::-webkit-date-and-time-value{text-align:left}
 .found:first-child{border-top:0}
 .found input[type=checkbox]{width:22px;height:22px;accent-color:var(--brand);flex:none}
 .found .meta{flex:1;min-width:0}
-.found select{padding:6px 8px;border-radius:10px;border:2px solid var(--line);background:var(--bg);font-weight:700;max-width:100%}
+.found select{padding:6px 8px;border-radius:10px;border:2px solid var(--line);background:var(--bg);font-weight:700;max-width:100% }
 .found .orig{color:var(--muted);font-size:.85rem;unicode-bidi:plaintext}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(170px + env(safe-area-inset-bottom,0px));background:var(--ink);color:#fff;padding:10px 18px;border-radius:999px;z-index:40;font-weight:700;max-width:90vw}
 .toast[hidden]{display:none}
 [hidden]{display:none !important}
+/* ---------- motion & celebrations ---------- */
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.brand svg{width:46px;height:46px;flex:none;filter:drop-shadow(0 4px 8px rgba(79,91,213,.3))}
+#view.enter{animation:enter .26s ease-out}
+@keyframes enter{from{opacity:0;transform:translateY(8px)}}
+.card.fresh,.erow.fresh,.hero.fresh{animation:fresh .75s cubic-bezier(.2,1.4,.4,1)}
+@keyframes fresh{0%{opacity:0;transform:translateY(-14px) scale(.94)}60%{opacity:1}100%{transform:none}}
+.card.completing{animation:complete .55s ease forwards;pointer-events:none}
+@keyframes complete{0%{transform:none}30%{transform:scale(1.03);background:color-mix(in srgb,var(--c) 16%,white)}100%{transform:translateX(40px) scale(.96);opacity:0;background:color-mix(in srgb,var(--c) 16%,white)}}
+.card.completing .chk span{background:var(--c);border-color:var(--c);animation:chkpop .45s cubic-bezier(.2,1.8,.4,1)}
+.card.completing .chk span::after{content:"";width:7px;height:13px;border:solid #fff;border-width:0 3px 3px 0;transform:translateY(-2px) rotate(45deg)}
+@keyframes chkpop{0%{transform:scale(.5)}100%{transform:scale(1)}}
+.fab:active{transform:scale(.94)}
+.fab{transition:transform .15s}
+.scrim{animation:fadein .2s ease-out;transition:opacity .22s}
+.scrim.closing{opacity:0}
+.sheet{transition:transform .26s cubic-bezier(.3,.9,.3,1);touch-action:pan-y}
+.sheet.dragging{transition:none}
+.scrim.closing .sheet{transform:translateY(105%) !important}
+@keyframes fadein{from{opacity:0}}
+html.locked,html.locked body{overflow:hidden}
+.cheer{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:24px;background:rgba(27,35,64,.38);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);animation:fadein .2s}
+.cheer[hidden]{display:none}
+#confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:53}
+.cheer-card{position:relative;z-index:52;width:100%;max-width:340px;background:#fff;border-radius:30px;padding:76px 22px 20px;text-align:center;box-shadow:0 24px 60px -12px rgba(27,35,64,.45);margin-top:60px}
+.cheer.go .cheer-card{animation:pop .6s cubic-bezier(.2,1.5,.4,1)}
+@keyframes pop{0%{transform:scale(.4) translateY(40px);opacity:0}100%{transform:none;opacity:1}}
+.burst{position:absolute;left:50%;top:-62px;width:124px;height:124px;margin-left:-62px;border-radius:50%;background:linear-gradient(135deg,var(--c),color-mix(in srgb,var(--c) 70%,#1B2340));display:grid;place-items:center;font-size:3.6rem;box-shadow:0 0 0 8px #fff,0 14px 30px -8px var(--c)}
+.burst::before,.burst::after{content:"";position:absolute;inset:0;border-radius:50%;border:3px solid var(--c);animation:ring 1.8s ease-out infinite}
+.burst::after{animation-delay:.6s}
+@keyframes ring{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.9);opacity:0}}
+.burst span{display:block;animation:bob 1.6s ease-in-out infinite}
+.cheer.go .burst span{animation:spinin .7s cubic-bezier(.2,1.6,.4,1),bob 1.6s ease-in-out .7s infinite}
+@keyframes spinin{0%{transform:scale(0) rotate(-200deg)}100%{transform:none}}
+@keyframes bob{50%{transform:translateY(-7px) rotate(6deg)}}
+.cheer h2{font:700 1.7rem/1.1 Fredoka,Nunito,sans-serif;margin:4px 0 6px;color:var(--ink)}
+.cheer p{margin:0 0 16px;color:var(--muted);font-weight:600}
+.prog{background:var(--bg);border-radius:999px;height:14px;overflow:hidden;margin:0 6px 6px}
+.prog i{display:block;height:100%;width:var(--from);background:linear-gradient(90deg,var(--c),color-mix(in srgb,var(--c) 60%,#fff));border-radius:999px;transition:width .9s cubic-bezier(.3,1.2,.4,1) .35s}
+.cheer.go .prog i{width:var(--to)}
+.progtxt{font-size:.85rem;font-weight:800;color:var(--c);margin-bottom:18px}
+.cheer .btn{background:var(--c);box-shadow:0 3px 0 color-mix(in srgb,var(--c) 70%,#1B2340)}
+@media (prefers-reduced-motion:reduce){
+  #view.enter,.card.fresh,.erow.fresh,.hero.fresh,.cheer.go .cheer-card,.burst::before,.burst::after,.burst span,.cheer.go .burst span{animation:none}
+  .card.completing{animation:none;opacity:.4}
+  .prog i{transition:none}
+}
 </style>
 
 </head>
 <body>
 <div class="wrap">
   <header class="top">
-    <h1 id="viewTitle">Homework</h1>
+    <div class="brand"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><linearGradient id="lgbg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6672F0"/><stop offset="1" stop-color="#3B45BF"/></linearGradient><linearGradient id="lgpg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#EEF1FC"/></linearGradient></defs><rect width="512" height="512" rx="116" fill="url(#lgbg)"/><circle cx="430" cy="80" r="150" fill="#fff" opacity=".07"/><g transform="rotate(-6 256 276)"><rect x="140" y="128" width="236" height="290" rx="34" fill="#2D3596" opacity=".35" transform="translate(10 14)"/><rect x="140" y="128" width="236" height="290" rx="34" fill="url(#lgpg)"/><rect x="140" y="128" width="40" height="290" rx="20" fill="#DDE2F8"/><rect x="160" y="128" width="20" height="290" fill="#DDE2F8"/><g fill="#C9D0EE"><rect x="206" y="186" width="130" height="14" rx="7"/><rect x="206" y="222" width="96" height="14" rx="7"/></g><path d="M214 312 l40 40 l78 -92" fill="none" stroke="#2FB06E" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/></g><path d="M388 118 q8 34 42 42 q-34 8 -42 42 q-8 -34 -42 -42 q34 -8 42 -42z" fill="#FFC23D"/><circle cx="110" cy="150" r="12" fill="#FFC23D" opacity=".9"/></svg><h1 id="viewTitle">Homework</h1></div>
     <div class="today"><div id="todayLbl"></div><div class="sync" id="syncLbl"></div></div>
   </header>
   <div id="headsUp"></div>
@@ -220,6 +274,17 @@ input[type=date].inp::-webkit-date-and-time-value{text-align:left}
   </div>
 </div>
 <div class="toast" id="toast" role="status" hidden></div>
+<div class="cheer" id="cheer" hidden role="dialog" aria-live="polite" aria-labelledby="cheerTitle">
+  <div class="cheer-card">
+    <div class="burst" aria-hidden="true"><span id="cheerEmoji"></span></div>
+    <h2 id="cheerTitle"></h2>
+    <p id="cheerSub"></p>
+    <div class="prog" id="cheerProg"><i></i></div>
+    <div class="progtxt" id="cheerProgTxt"></div>
+    <button class="btn" id="cheerBtn">Let’s go</button>
+  </div>
+</div>
+<canvas id="confetti" aria-hidden="true"></canvas>
 
 <script>
 const SUBJECTS = [
@@ -240,6 +305,7 @@ const LS_KEY = "school-planner-v1";
 
 let items = [];
 let tab = "homework";
+let freshId = null;
 
 /* ---------- dates ---------- */
 const pad = n => String(n).padStart(2,"0");
@@ -362,7 +428,7 @@ const bellSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stro
 function hwCard(it){
   const d = daysTo(it.date);
   const cls = it.done ? "" : d <= 1 ? "urgent" : d <= 3 ? "soon" : "";
-  return `<div class="card ${it.done?"done":""}" style="--c:${col(it.subject)}">
+  return `<div class="card ${it.done?"done":""}${it.id===freshId?" fresh":""}" style="--c:${col(it.subject)}">
     <div class="ico">${esc(SUB[it.subject]?.i || "•")}</div>
     <button class="body" data-edit="${it.id}">
       <div class="subj">${esc(SUB[it.subject]?.n || "Other")}</div>
@@ -409,7 +475,7 @@ function renderExams(){
   let h = "";
   if (up.length){
     const n = up[0], d = daysTo(n.date), [big, unit] = countFor(d);
-    h += `<button class="hero" style="--c:${col(n.subject)}" data-edit="${n.id}">
+    h += `<button class="hero${n.id===freshId?" fresh":""}" style="--c:${col(n.subject)}" data-edit="${n.id}">
       <span class="lbl">Next exam</span>
       <div class="row"><div class="big ${unit?"":"word"}">${big}</div>${unit ? `<div class="unit">${d===1?"day":"days"}<br>to go</div>` : ""}</div>
       <div class="what">${esc(SUB[n.subject]?.i || "")} ${esc(SUB[n.subject]?.n || "Exam")}: ${esc(n.title)}</div>
@@ -426,7 +492,7 @@ function renderExams(){
 function examRow(it){
   const d = daysTo(it.date), past = d < 0, dt = parse(it.date);
   const left = past ? "Done" : d === 0 ? "Today!" : d === 1 ? "Tomorrow!" : `In ${d} days${weeksLbl(d) ? " (" + weeksLbl(d) + ")" : ""}`;
-  return `<div class="erow ${past?"past":""}" style="--c:${col(it.subject)}">
+  return `<div class="erow ${past?"past":""}${it.id===freshId?" fresh":""}" style="--c:${col(it.subject)}">
     <div class="cal"><div class="m">${dt.toLocaleDateString("en-GB",{month:"short"}).toUpperCase()}</div><div class="d">${dt.getDate()}</div><div class="w">${dt.toLocaleDateString("en-GB",{weekday:"short"})}</div></div>
     <button class="body" data-edit="${it.id}">
       <div class="subj">${esc(SUB[it.subject]?.n || "Exam")}</div>
@@ -517,6 +583,7 @@ function render(){
   const v = document.getElementById("view");
   v.innerHTML = tab === "homework" ? renderHomework() : tab === "exams" ? renderExams() : renderShahaf();
   renderHeads(); renderBadges();
+  if (freshId) setTimeout(() => { freshId = null; }, 50);
 }
 
 /* ---------- interactions ---------- */
@@ -524,12 +591,20 @@ document.querySelector("nav.tabs").addEventListener("click", e => {
   const b = e.target.closest("[data-tab]"); if (!b) return;
   go(b.dataset.tab);
 });
-function go(t){ tab = t; history.replaceState(null, "", "#" + t); render(); window.scrollTo(0,0); }
+function go(t){
+  const changed = t !== tab;
+  tab = t; history.replaceState(null, "", "#" + t); render(); window.scrollTo(0,0);
+  if (changed){ const v = document.getElementById("view"); v.classList.remove("enter"); void v.offsetWidth; v.classList.add("enter"); if (t === "exams") countUpHero(); }
+}
 
 document.getElementById("view").addEventListener("click", e => {
   const t = e.target;
   const done = t.closest("[data-done]");
-  if (done){ items = items.map(i => ({...i})); const it = items.find(i => i.id === done.dataset.done); if (it){ it.done = !it.done; it.u = Date.now(); persist(); render(); if (it.done) toast("Nice, done ✓"); } return; }
+  if (done){
+    const id = done.dataset.done, it = items.find(i => i.id === id); if (!it) return;
+    if (!it.done) completeHomework(id, done.closest(".card"));
+    else { items = items.map(i => i.id === id ? {...i, done:false, u:Date.now()} : i); persist(); render(); toast("Moved back to your list"); }
+    return; }
   const ed = t.closest("[data-edit]");
   if (ed){ openSheet(items.find(i => i.id === ed.dataset.edit)); return; }
   const cal = t.closest("[data-cal]");
@@ -586,9 +661,18 @@ function openSheet(it){
   document.getElementById("dateIn").value = it ? it.date : addDays(kind === "hw" ? 1 : 7);
   document.getElementById("formErr").textContent = "";
   paintSheet();
-  document.getElementById("scrim").hidden = false;
+  const sc = document.getElementById("scrim"); clearTimeout(closeT); sc.classList.remove("closing"); sc.querySelector(".sheet").style.transform = ""; sc.hidden = false;
+  document.documentElement.classList.add("locked");
 }
-function closeSheet(){ document.getElementById("scrim").hidden = true; editing = null; }
+let closeT;
+function closeSheet(){
+  const sc = document.getElementById("scrim"); if (sc.hidden) return;
+  document.documentElement.classList.remove("locked");
+  document.activeElement?.blur?.();
+  if (reduceMotion()){ sc.hidden = true; editing = null; return; }
+  sc.classList.add("closing");
+  closeT = setTimeout(() => { sc.hidden = true; sc.classList.remove("closing"); sc.querySelector(".sheet").style.transform = ""; editing = null; }, 240);
+}
 document.getElementById("fab").onclick = () => openSheet(null);
 document.getElementById("cancelBtn").onclick = closeSheet;
 document.getElementById("scrim").addEventListener("click", e => { if (e.target.id === "scrim") closeSheet(); });
@@ -608,7 +692,8 @@ function saveForm(){
   if (editing){ Object.assign(editing, {subject:subj, title, date, u:Date.now()}); toast("Saved"); }
   else {
     items.push({id: "i" + Date.now().toString(36) + Math.random().toString(36).slice(2,6), kind, subject:subj, title, date, done:false, created:Date.now(), u:Date.now()});
-    toast(kind === "hw" ? "Homework added" : "Exam added");
+    freshId = items[items.length-1].id;
+    toast(kind === "hw" ? "Homework added ✨" : "Exam added ✨");
   }
   persist(); closeSheet(); render();
 }
@@ -678,7 +763,7 @@ function addImported(){
   items = items.map(i => ({...i}));
   for (const x of pick) items.push({id:"i"+Date.now().toString(36)+Math.random().toString(36).slice(2,6), kind:"exam", subject:x.subject, title:x.title, date:x.date, done:false, created:Date.now(), u:Date.now()});
   imported = []; persist();
-  toast(`Added ${pick.length} exam${pick.length>1?"s":""}`);
+  { const [emoji, title] = pickCheer(IMPORT_CHEERS, "imp"); cheer({emoji, title, sub: `Added ${pick.length} exam${pick.length>1?"s":""}. Check the Exams tab for your countdowns.`, subject: null}); }
   go("exams");
 }
 
@@ -695,6 +780,139 @@ setInterval(() => { if (ymd(new Date()) !== lastDay){ lastDay = ymd(new Date());
 const h0 = location.hash.slice(1);
 if (["homework","exams","shahaf"].includes(h0)) tab = h0;
 window.addEventListener("hashchange", () => { const h = location.hash.slice(1); if (["homework","exams","shahaf"].includes(h) && h !== tab){ tab = h; render(); } });
+
+/* ---------- celebrations ---------- */
+const HW_CHEERS = [["✅","Done and dusted"],["🚀","One less thing"],["🧠","Big brain move"],["⚡","Knocked it out"],["🎯","Nailed it"],["🔥","You’re on a roll"],["😎","Easy work"],["💪","Handled it"]];
+const ALL_CHEERS = [["🏆","Homework cleared!"],["🎉","Nothing left to do!"],["👑","Zero homework. Legend."]];
+const IMPORT_CHEERS = [["📲","Exams are in"],["🗓️","Schedule sorted"]];
+const lastCheer = {};
+function pickCheer(list, key){
+  let i; do { i = Math.floor(Math.random() * list.length); } while (list.length > 1 && i === lastCheer[key]);
+  lastCheer[key] = i; return list[i];
+}
+const reduceMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+let confettiRun = 0;
+function confetti(mainColor){
+  if (reduceMotion()) return;
+  const cv = document.getElementById("confetti"), ctx = cv.getContext("2d");
+  const dpr = Math.min(window.devicePixelRatio || 1, 2), W = innerWidth, H = innerHeight;
+  cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const css = getComputedStyle(document.documentElement);
+  const cols = [mainColor, mainColor, ...["--brand","--math","--sustainability","--literature","--english"].map(v => css.getPropertyValue(v).trim())];
+  const parts = [];
+  const shoot = (x, y, angle, spread, n, speed) => {
+    for (let i = 0; i < n; i++){
+      const a = angle + (Math.random() - .5) * spread, v = speed * (.55 + Math.random() * .6);
+      parts.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, r: Math.random() * 6.28, vr: (Math.random() - .5) * .35,
+        w: 7 + Math.random() * 6, h: 4 + Math.random() * 5, c: cols[i % cols.length], wob: Math.random() * 6.28, vw: .08 + Math.random() * .12, round: Math.random() < .25 });
+    }
+  };
+  const s = Math.min(W, H);
+  shoot(-10, H * .78, -Math.PI / 3.2, .7, 60, s * .045);
+  shoot(W + 10, H * .78, -Math.PI + Math.PI / 3.2, .7, 60, s * .045);
+  shoot(W / 2, H * .36, -Math.PI / 2, 2.6, 45, s * .03);
+  const id = ++confettiRun, start = performance.now();
+  let last = start;
+  (function frame(t){
+    if (id !== confettiRun) return;
+    const dt = Math.min(2, (t - last) / 16.67); last = t;
+    ctx.clearRect(0, 0, W, H);
+    let alive = 0;
+    for (const p of parts){
+      p.vy += .32 * dt; p.vx *= Math.pow(.985, dt); p.vy *= Math.pow(.985, dt);
+      p.x += p.vx * dt + Math.sin(p.wob) * .6; p.y += p.vy * dt; p.r += p.vr * dt; p.wob += p.vw * dt;
+      if (p.y > H + 30) continue;
+      alive++;
+      const fade = Math.max(0, Math.min(1, (4200 - (t - start)) / 900));
+      ctx.save(); ctx.globalAlpha = fade; ctx.translate(p.x, p.y); ctx.rotate(p.r); ctx.scale(1, Math.cos(p.wob));
+      ctx.fillStyle = p.c;
+      if (p.round){ ctx.beginPath(); ctx.arc(0, 0, p.h * .7, 0, 6.28); ctx.fill(); } else ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      ctx.restore();
+    }
+    if (alive && t - start < 4200) requestAnimationFrame(frame); else ctx.clearRect(0, 0, W, H);
+  })(start);
+}
+function cheer({emoji, title, sub, subject, from, to, progLabel}){
+  const el = document.getElementById("cheer");
+  const varName = SUB[subject] ? `--${subject}` : "--brand";
+  el.style.setProperty("--c", `var(${varName})`);
+  document.getElementById("cheerEmoji").textContent = emoji;
+  document.getElementById("cheerTitle").textContent = title;
+  document.getElementById("cheerSub").textContent = sub;
+  const prog = document.getElementById("cheerProg");
+  if (to != null){
+    prog.hidden = false;
+    prog.querySelector("i").style.setProperty("--from", from + "%");
+    prog.querySelector("i").style.setProperty("--to", to + "%");
+    document.getElementById("cheerProgTxt").textContent = progLabel;
+  } else prog.hidden = true;
+  document.getElementById("cheerProgTxt").hidden = to == null;
+  el.hidden = false;
+  el.classList.remove("go"); void el.offsetWidth; el.classList.add("go");
+  confetti(getComputedStyle(document.documentElement).getPropertyValue(varName).trim());
+}
+function closeCheer(){ document.getElementById("cheer").hidden = true; confettiRun++; const cv = document.getElementById("confetti"); cv.getContext("2d").clearRect(0,0,cv.width,cv.height); }
+document.getElementById("cheer").addEventListener("click", closeCheer);
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !document.getElementById("cheer").hidden) closeCheer(); });
+(() => { let y0 = null; const c = document.getElementById("cheer");
+  c.addEventListener("touchstart", e => { y0 = e.touches[0].clientY; }, {passive:true});
+  c.addEventListener("touchend", e => { if (y0 != null && Math.abs(e.changedTouches[0].clientY - y0) > 50) closeCheer(); y0 = null; });
+})();
+
+function hwStats(){
+  const from = startToday(); from.setDate(from.getDate() - 7);
+  const recent = live().filter(i => i.kind === "hw" && (!i.done || parse(i.date) >= from));
+  return { done: recent.filter(i => i.done).length, total: recent.length, open: recent.filter(i => !i.done).length };
+}
+function completeHomework(id, cardEl){
+  const it0 = items.find(i => i.id === id); if (!it0) return;
+  const before = hwStats();
+  const apply = () => {
+    items = items.map(i => i.id === id ? {...i, done: true, u: Date.now()} : i);
+    persist(); render();
+    const after = hwStats(), it = items.find(i => i.id === id), d = daysTo(it.date);
+    const subj = SUB[it.subject]?.n || "Homework";
+    const early = d >= 2 ? ` Finished ${d} days early!` : d === 1 ? " Done a day early." : "";
+    const all = after.open === 0;
+    const [emoji, title] = all ? pickCheer(ALL_CHEERS, "all") : pickCheer(HW_CHEERS, "hw");
+    const sub = all ? `Everything’s handed in.${early} Go enjoy your day.` : `${subj} done.${early} ${after.open} left to go.`;
+    const pct = n => after.total ? Math.round(n / after.total * 100) : 100;
+    cheer({emoji, title, sub, subject: it.subject, from: pct(before.done), to: pct(after.done), progLabel: `${after.done} of ${after.total} done this week`});
+  };
+  if (cardEl && !reduceMotion()){ cardEl.classList.add("completing"); setTimeout(apply, 480); }
+  else apply();
+}
+function countUpHero(){
+  if (reduceMotion()) return;
+  const el = document.querySelector(".hero .big:not(.word)"); if (!el) return;
+  const to = parseInt(el.textContent, 10); if (!(to > 1)) return;
+  const t0 = performance.now(), ms = Math.min(900, 300 + to * 25);
+  (function f(t){ const k = Math.min(1, (t - t0) / ms), e = 1 - Math.pow(1 - k, 3); el.textContent = Math.round(to * e); if (k < 1) requestAnimationFrame(f); })(t0);
+}
+
+/* ---------- sheet: swipe down to close ---------- */
+(() => {
+  const sheet = document.querySelector("#scrim .sheet");
+  let y0 = null, dy = 0, t0 = 0;
+  sheet.addEventListener("touchstart", e => {
+    if (e.target.closest("input,textarea,select")) return;
+    if (sheet.scrollTop > 2) return;
+    y0 = e.touches[0].clientY; dy = 0; t0 = Date.now();
+  }, {passive:true});
+  sheet.addEventListener("touchmove", e => {
+    if (y0 == null) return;
+    dy = Math.max(0, e.touches[0].clientY - y0);
+    if (dy > 4){ sheet.classList.add("dragging"); if (e.cancelable) e.preventDefault(); sheet.style.transform = `translateY(${dy}px)`; }
+  }, {passive:false});
+  const end = () => {
+    if (y0 == null) return;
+    sheet.classList.remove("dragging");
+    const v = dy / Math.max(1, Date.now() - t0);
+    if (dy > 110 || (v > .5 && dy > 30)) closeSheet(); else sheet.style.transform = "";
+    y0 = null; dy = 0;
+  };
+  sheet.addEventListener("touchend", end); sheet.addEventListener("touchcancel", end);
+})();
 
 loadLocal(); paintToday(); render();
 initSync();
